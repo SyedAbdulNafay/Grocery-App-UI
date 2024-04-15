@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:grocery_app_ui/favourite_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetail extends StatefulWidget {
   final String image;
@@ -8,9 +10,7 @@ class ProductDetail extends StatefulWidget {
   final double price;
   final Map<String, dynamic> item;
   final List<Map<String, dynamic>> cart;
-  final List<Map<String, dynamic>> favourite;
   final Function(Map<String, dynamic>) onAddItemToCart;
-  final Function(Map<String, dynamic>) onAddItemToFavourite;
   const ProductDetail(
       {super.key,
       required this.image,
@@ -19,16 +19,13 @@ class ProductDetail extends StatefulWidget {
       required this.price,
       required this.item,
       required this.cart,
-      required this.onAddItemToCart,
-      required this.favourite,
-      required this.onAddItemToFavourite});
+      required this.onAddItemToCart,});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  bool pressed = false;
   @override
   Widget build(BuildContext context) {
     var count = widget.item["count"] ?? 0;
@@ -71,29 +68,22 @@ class _ProductDetailState extends State<ProductDetail> {
                             fontSize: 23,
                             fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
-                          onPressed: () {
-                            for (var element in widget.favourite) {
-                              if (element['title'] == widget.title) {
-                                return;
-                              }
-                            }
-                            Map<String, dynamic> fav = {
-                              "title": widget.title,
-                              "image": widget.image,
-                              "quantity": widget.quantity,
-                              "price": widget.price,
-                            };
-                            widget.onAddItemToFavourite(fav);
-                            setState(() {
-                              pressed = !pressed;
-                            });
-                          },
-                          icon: Icon(
-                            Icons.favorite_outline,
-                            color: pressed ? Colors.red : Colors.grey,
-                            fill: 0.1,
-                          ))
+                      Consumer<FavouriteProvider>(
+                        builder: (context, favouriteProvider, child) =>
+                            IconButton(
+                                onPressed: () {
+                                  if (favouriteProvider.isFavourite(widget.item)) {
+                                    favouriteProvider.removeFromFavourite(widget.item);
+                                  } else {
+                                    favouriteProvider.addToFavourite(widget.item);
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.favorite_outlined,
+                                  color: favouriteProvider.isFavourite(widget.item) ? Colors.red : Colors.grey,
+                                  fill: 0.1,
+                                )),
+                      )
                     ],
                   ),
                   Text(
@@ -209,8 +199,8 @@ class _ProductDetailState extends State<ProductDetail> {
                       RatingBar.builder(
                           itemSize: 20,
                           allowHalfRating: true,
-                          itemBuilder: ((context, _) =>
-                              const Icon(Icons.star, color: Color.fromRGBO(243, 96, 63, 1))),
+                          itemBuilder: ((context, _) => const Icon(Icons.star,
+                              color: Color.fromRGBO(243, 96, 63, 1))),
                           onRatingUpdate: (rating) {
                             print(rating);
                           })

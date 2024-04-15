@@ -5,14 +5,11 @@ import 'package:grocery_app_ui/beverages.dart';
 
 class Explore extends StatelessWidget {
   final List<Map<String, dynamic>> cart;
-  final List<Map<String, dynamic>> favourtie;
   final Function(Map<String, dynamic>) onAddItemToCart;
-  final Function(Map<String, dynamic>) onAddItemToFavourite;
   const Explore(
       {Key? key,
       required this.cart,
-      required this.favourtie,
-      required this.onAddItemToCart, required this.onAddItemToFavourite})
+      required this.onAddItemToCart})
       : super(key: key);
 
   @override
@@ -92,10 +89,8 @@ class Explore extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Beverages(
-                                          onAddItemToFavourite: onAddItemToFavourite,
                                               cart: cart,
                                               onAddItemToCart: onAddItemToCart,
-                                              favourite: favourtie,
                                             )));
                               },
                               child: Container(
@@ -141,11 +136,9 @@ class Explore extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: ((context) => Beverages(
-                                            onAddItemToFavourite: onAddItemToFavourite,
                                                 cart: cart,
                                                 onAddItemToCart:
                                                     onAddItemToCart,
-                                                favourite: favourtie,
                                               ))));
                                 },
                                 child: Container(

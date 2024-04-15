@@ -3,11 +3,9 @@ import 'package:grocery_app_ui/foodcard.dart';
 
 class Beverages extends StatelessWidget {
   final List<Map<String, dynamic>> cart;
-  final List<Map<String, dynamic>> favourite;
   final Function(Map<String, dynamic>) onAddItemToCart;
-  final Function(Map<String, dynamic>) onAddItemToFavourite;
 
-  const Beverages({Key? key, required this.cart, required this.favourite, required this.onAddItemToCart, required this.onAddItemToFavourite}) : super(key: key);
+  const Beverages({Key? key, required this.cart, required this.onAddItemToCart}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +82,6 @@ class Beverages extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: FoodCard(
-                            onAddItemToFavourite: onAddItemToFavourite,
-                            favourite: favourite,
                             onAddItemToCart: onAddItemToCart,
                             cart: cart,
                               image: list[index * 2]['image'],
@@ -97,8 +93,6 @@ class Beverages extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: FoodCard(
-                              onAddItemToFavourite: onAddItemToFavourite,
-                              favourite: favourite,
                               onAddItemToCart: onAddItemToCart,
                               cart: cart,
                                 image: list[index * 2 + 1]['image'],

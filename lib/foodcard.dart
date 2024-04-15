@@ -3,13 +3,11 @@ import 'package:grocery_app_ui/product_detail.dart';
 
 class FoodCard extends StatelessWidget {
   final List<Map<String, dynamic>> cart;
-  final List<Map<String, dynamic>> favourite;
   final String image;
   final String title;
   final String quantity;
   final double price;
   final Function(Map<String, dynamic>) onAddItemToCart;
-  final Function(Map<String, dynamic>) onAddItemToFavourite;
   const FoodCard(
       {Key? key,
       required this.image,
@@ -17,9 +15,7 @@ class FoodCard extends StatelessWidget {
       required this.quantity,
       required this.price,
       required this.cart,
-      required this.favourite,
-      required this.onAddItemToCart,
-      required this.onAddItemToFavourite})
+      required this.onAddItemToCart,})
       : super(key: key);
 
   @override
@@ -40,8 +36,6 @@ class FoodCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: ((context) => ProductDetail(
-                        onAddItemToFavourite: onAddItemToFavourite,
-                        favourite: favourite,
                         item: item,
                         image: image,
                         title: title,

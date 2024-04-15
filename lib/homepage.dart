@@ -15,17 +15,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Map<String, dynamic>> cart = [];
-  List<Map<String, dynamic>> favourite = [];
 
   void addItemToCart(Map<String, dynamic> item) {
     setState(() {
       cart.add(item);
-    });
-  }
-
-  void addItemToFavourite(Map<String, dynamic> item) {
-    setState(() {
-      favourite.add(item);
     });
   }
 
@@ -39,20 +32,16 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       Shop(
-        onAddItemToFavourite: addItemToFavourite,
-        favourite: favourite,
         cart: cart,
         onAddItemToCart: addItemToCart,
       ),
       Explore(
-          favourtie: favourite,
           cart: cart,
-          onAddItemToCart: addItemToCart,
-          onAddItemToFavourite: addItemToFavourite),
+          onAddItemToCart: addItemToCart),
       Cart(
         cart: cart,
       ),
-      Favourite(onAddItemToFavourite: addItemToFavourite, favourite: favourite),
+      const Favourite(),
       const Account()
     ];
     return Scaffold(
