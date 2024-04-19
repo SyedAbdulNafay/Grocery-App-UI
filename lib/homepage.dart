@@ -14,13 +14,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  List<Map<String, dynamic>> cart = [];
-
-  void addItemToCart(Map<String, dynamic> item) {
-    setState(() {
-      cart.add(item);
-    });
-  }
 
   navigateBottomBar(int index) {
     setState(() {
@@ -31,16 +24,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      Shop(
-        cart: cart,
-        onAddItemToCart: addItemToCart,
-      ),
-      Explore(
-          cart: cart,
-          onAddItemToCart: addItemToCart),
-      Cart(
-        cart: cart,
-      ),
+      const Shop(),
+      const Explore(),
+      const Cart(),
       const Favourite(),
       const Account()
     ];

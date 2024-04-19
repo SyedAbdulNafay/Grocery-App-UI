@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:grocery_app_ui/cart_provider.dart';
 import 'package:grocery_app_ui/favourite_provider.dart';
+import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/item_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -8,18 +11,15 @@ class ProductDetail extends StatefulWidget {
   final String title;
   final String quantity;
   final double price;
-  final Map<String, dynamic> item;
-  final List<Map<String, dynamic>> cart;
-  final Function(Map<String, dynamic>) onAddItemToCart;
-  const ProductDetail(
-      {super.key,
-      required this.image,
-      required this.title,
-      required this.quantity,
-      required this.price,
-      required this.item,
-      required this.cart,
-      required this.onAddItemToCart,});
+  final Item item;
+  const ProductDetail({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.quantity,
+    required this.price,
+    required this.item,
+  });
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -28,7 +28,7 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
-    var count = widget.item["count"] ?? 0;
+    var count = widget.item.count;
 
     return Scaffold(
       appBar: AppBar(
@@ -72,15 +72,21 @@ class _ProductDetailState extends State<ProductDetail> {
                         builder: (context, favouriteProvider, child) =>
                             IconButton(
                                 onPressed: () {
-                                  if (favouriteProvider.isFavourite(widget.item)) {
-                                    favouriteProvider.removeFromFavourite(widget.item);
+                                  if (favouriteProvider
+                                      .isFavourite(widget.item)) {
+                                    favouriteProvider
+                                        .removeFromFavourite(widget.item);
                                   } else {
-                                    favouriteProvider.addToFavourite(widget.item);
+                                    favouriteProvider
+                                        .addToFavourite(widget.item);
                                   }
                                 },
                                 icon: Icon(
                                   Icons.favorite_outlined,
-                                  color: favouriteProvider.isFavourite(widget.item) ? Colors.red : Colors.grey,
+                                  color:
+                                      favouriteProvider.isFavourite(widget.item)
+                                          ? Colors.red
+                                          : Colors.grey,
                                   fill: 0.1,
                                 )),
                       )
@@ -94,44 +100,44 @@ class _ProductDetailState extends State<ProductDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          TextButton(
-                              onPressed: () {
-                                if (count > 0) {
-                                  count--;
-                                }
-                              },
-                              child: Image.asset(
-                                'assets/Images/minus_button.png',
-                                height: 45.67,
-                                width: 45.67,
-                              )),
-                          Text(
-                            count.toString(),
-                            style: const TextStyle(
-                                fontFamily: "Gilroy",
-                                fontWeight: FontWeight.bold),
+                      Consumer<CartProvider>(
+                        builder: (context, cartProvider, child) =>
+                            Consumer<ItemProvider>(
+                          builder: (context, itemProvider, child) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    itemProvider.decrementCount(widget.item);
+                                  },
+                                  child: Image.asset(
+                                    'assets/Images/minus_button.png',
+                                    height: 45.67,
+                                    width: 45.67,
+                                  )),
+                              Text(
+                                widget.item.count.toString(),
+                                style: const TextStyle(
+                                    fontFamily: "Gilroy",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    if (cartProvider.isAdded(widget.item)) {
+                                      itemProvider.incrementCount(widget.item);
+                                    } else {
+                                      itemProvider.incrementCount(widget.item);
+                                      cartProvider.addToCart(widget.item);
+                                    }
+                                  },
+                                  child: Image.asset(
+                                    'assets/Images/add_button_2.png',
+                                    height: 45.67,
+                                    width: 45.67,
+                                  ))
+                            ],
                           ),
-                          TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (count == "0") {
-                                    widget.item["count"] = 1;
-                                    widget.onAddItemToCart(widget.item);
-                                  } else {
-                                    count++;
-                                    widget.item["count"] = count;
-                                  }
-                                });
-                              },
-                              child: Image.asset(
-                                'assets/Images/add_button_2.png',
-                                height: 45.67,
-                                width: 45.67,
-                              ))
-                        ],
+                        ),
                       ),
                       Text(
                         widget.price.toString(),

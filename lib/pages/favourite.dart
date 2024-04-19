@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app_ui/favourite_provider.dart';
+import 'package:grocery_app_ui/item.dart';
 import 'package:provider/provider.dart';
 
 class Favourite extends StatefulWidget {
@@ -38,21 +39,21 @@ class _FavouriteState extends State<Favourite> {
                   child: ListView.builder(
                       itemCount: favouriteProvider.favourite.length,
                       itemBuilder: ((context, index) {
-                        Map<String, dynamic> item =
+                        Item item =
                             favouriteProvider.favourite[index];
                         return ExpansionTile(
                           title: Text(
-                            item['title'].toString(),
+                            item.title.toString(),
                             style: const TextStyle(
                                 fontFamily: "Gilroy",
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          // leading: Image.asset(
-                          //   item['image'],
-                          //   width: 65,
-                          //   height: 70,
-                          // ),
+                          leading: Image.asset(
+                            item.image,
+                            width: 65,
+                            height: 70,
+                          ),
                           // trailing: Text(
                           //   "${item['price']}",
                           //   style: const TextStyle(
@@ -61,7 +62,7 @@ class _FavouriteState extends State<Favourite> {
                           //       fontWeight: FontWeight.bold),
                           // ),
                           subtitle: Text(
-                            item['quantity'].toString(),
+                            item.quantity.toString(),
                             style: const TextStyle(
                                 fontFamily: "Gilroy",
                                 fontSize: 12,

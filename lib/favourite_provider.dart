@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app_ui/item.dart';
 
 class FavouriteProvider extends ChangeNotifier{
-  List<Map<String, dynamic>> favourite = [];
+  List<Item> favourite = [];
 
-  void addToFavourite(Map<String, dynamic> item){
+  void addToFavourite(Item item){
     favourite.add(item);
     notifyListeners();
   }
 
-  void removeFromFavourite(Map<String, dynamic> item){
-    favourite.removeWhere((element) => element['title'] == item['title']);
+  void removeFromFavourite(Item item){
+    favourite.removeWhere((element) => element.title == item.title);
     notifyListeners();
   }
 
-  bool isFavourite(Map<String, dynamic> item){
-    return favourite.any((element) => element['title'] == item['title']);
+  bool isFavourite(Item item){
+    return favourite.any((element) => element.title == item.title);
   }
 }

@@ -42,7 +42,7 @@ class _AccountState extends State<Account> {
                 IconButton(
                     icon: const Icon(Icons.edit_outlined),
                     onPressed: () {},
-                    color: Colors.green)
+                    color: Theme.of(context).colorScheme.primary)
               ],
             ),
             subtitle: const Text(
@@ -81,20 +81,20 @@ class _AccountState extends State<Account> {
                   decoration: BoxDecoration(
                       color: const Color.fromRGBO(242, 243, 242, 1),
                       borderRadius: BorderRadius.circular(18)),
-                  child: const Center(
+                  child: Center(
                     child: Row(
                       children: [
                         Icon(
                           Icons.logout_outlined,
-                          color: Color.fromRGBO(83, 177, 117, 1),
+                          color: Theme.of(context).colorScheme.primary,
                         ),
-                        SizedBox(width: 70,),
+                        const SizedBox(width: 70,),
                         Text(
                           "Log Out",
                           style: TextStyle(
                               fontFamily: "Gilroy",
                               fontSize: 18,
-                              color: Color.fromRGBO(83, 177, 117, 1)),
+                              color: Theme.of(context).colorScheme.primary),
                         ),
                       ],
                     ),

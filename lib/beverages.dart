@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app_ui/foodcard.dart';
 
 class Beverages extends StatelessWidget {
-  final List<Map<String, dynamic>> cart;
-  final Function(Map<String, dynamic>) onAddItemToCart;
 
-  const Beverages({Key? key, required this.cart, required this.onAddItemToCart}) : super(key: key);
+  const Beverages({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +80,6 @@ class Beverages extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: FoodCard(
-                            onAddItemToCart: onAddItemToCart,
-                            cart: cart,
                               image: list[index * 2]['image'],
                               title: list[index * 2]['title'],
                               quantity: list[index * 2]['quantity'],
@@ -93,8 +89,6 @@ class Beverages extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: FoodCard(
-                              onAddItemToCart: onAddItemToCart,
-                              cart: cart,
                                 image: list[index * 2 + 1]['image'],
                                 title: list[index * 2 + 1]['title'],
                                 quantity: list[index * 2 + 1]['quantity'],
