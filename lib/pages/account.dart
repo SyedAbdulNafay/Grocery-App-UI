@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -29,7 +28,7 @@ class _AccountState extends State<Account> {
       body: Column(
         children: [
           ListTile(
-            leading: Image.asset('assets/Images/profile_pic.png'),
+            leading: const CircleAvatar(radius: 27,backgroundImage: AssetImage('assets/Images/profile_pic.png')),
             title: Row(
               children: [
                 const Text(
@@ -42,7 +41,7 @@ class _AccountState extends State<Account> {
                 IconButton(
                     icon: const Icon(Icons.edit_outlined),
                     onPressed: () {},
-                    color: Theme.of(context).colorScheme.primary)
+                    color: Theme.of(context).primaryColor)
               ],
             ),
             subtitle: const Text(
@@ -86,7 +85,7 @@ class _AccountState extends State<Account> {
                       children: [
                         Icon(
                           Icons.logout_outlined,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).primaryColor,
                         ),
                         const SizedBox(width: 70,),
                         Text(
@@ -94,7 +93,7 @@ class _AccountState extends State<Account> {
                           style: TextStyle(
                               fontFamily: "Gilroy",
                               fontSize: 18,
-                              color: Theme.of(context).colorScheme.primary),
+                              color: Theme.of(context).primaryColor),
                         ),
                       ],
                     ),

@@ -4,6 +4,7 @@ class Item {
   final String quantity;
   final double price;
   int count;
+  final String detail;
 
   Item({
     required this.image,
@@ -11,5 +12,6 @@ class Item {
     required this.quantity,
     required this.price,
     this.count = 0,
+    required this.detail
   });
 }

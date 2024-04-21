@@ -9,15 +9,14 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
+class HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
   navigateBottomBar(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
   }
 
@@ -31,14 +30,15 @@ class _HomePageState extends State<HomePage> {
       const Account()
     ];
     return Scaffold(
-      body: pages[_selectedIndex],
+      body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).primaryColor,
+        currentIndex: selectedIndex,
         onTap: navigateBottomBar,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.storefront_outlined), label: "Shop"),
+              icon: Icon(Icons.storefront_outlined,), label: "Shop"),
           BottomNavigationBarItem(
               icon: Icon(Icons.manage_search_rounded), label: "Explore"),
           BottomNavigationBarItem(

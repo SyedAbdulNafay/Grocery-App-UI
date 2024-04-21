@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app_ui/foodcard.dart';
 import 'package:grocery_app_ui/grocery_provider.dart';
+import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/pages/explore.dart';
 import 'package:grocery_app_ui/pages/grocery_categories_page.dart';
+import 'package:grocery_app_ui/widgets/foodcard.dart';
 
-class Shop extends StatelessWidget {
+class Shop extends StatefulWidget {
   const Shop({super.key});
 
   @override
+  State<Shop> createState() => _ShopState();
+}
+
+class _ShopState extends State<Shop> {
+  final shopSearchController = TextEditingController();
+  List<Item> searchItems = [];
+  @override
   Widget build(BuildContext context) {
+    void searchItem(String query) {
+      searchItems.clear();
+      for (var category in groceryCategories) {
+        for (Item item in category['items']) {
+          if (item.title.toLowerCase().contains(query.toLowerCase())) {
+            searchItems.add(item);
+          }
+        }
+      }
+    }
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
@@ -16,21 +36,37 @@ class Shop extends StatelessWidget {
             child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.symmetric(vertical: 50),
               child: Image.asset(
                 'assets/Images/logo_color.png',
                 height: 40,
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
                   TextField(
+                    controller: shopSearchController,
+                    onChanged: (query) {
+                      searchItem(query);
+                      setState(() {});
+                    },
                     decoration: InputDecoration(
+                        suffix: shopSearchController.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(
+                                  Icons.cancel_sharp,
+                                  size: 18,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () {
+                                  shopSearchController.clear();
+                                  searchItems.clear();
+                                  setState(() {});
+                                },
+                              )
+                            : null,
                         filled: true,
                         fillColor: Colors.grey[100],
                         border: OutlineInputBorder(
@@ -41,206 +77,295 @@ class Shop extends StatelessWidget {
                             color: Colors.grey[700], fontFamily: 'Gilroy'),
                         prefixIcon: const Icon(Icons.search)),
                   ),
-                  Container(
-                    height: 114.99,
-                    width: 368.2,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                    child: PageView(
-                      children: [
-                        Image.asset(
-                          'assets/Images/banner.jpeg',
-                          width: size.width,
-                          height: size.height,
-                        ),
-                        Image.asset(
-                          'assets/Images/banner.jpeg',
-                          width: size.width,
-                          height: size.height,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  shopSearchController.text.isEmpty
+                      ? Column(
+                          children: [
+                            const SizedBox(height: 20,),
+                            Container(
+                              height: 114.99,
+                              width: 368.2,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: PageView(
+                                children: [
+                                  Image.asset(
+                                    'assets/Images/banner.png',
+                                    width: size.width,
+                                    height: size.height,
+                                  ),
+                                  Image.asset(
+                                    'assets/Images/banner.png',
+                                    width: size.width,
+                                    height: size.height,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Exclusive Offer",
+                                  style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 24),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CustomGroceryCategoryPage(
+                                                      appBarTitle: "Exclusive",
+                                                      list: exclusive)));
+                                    },
+                                    child: Text(
+                                      "See all",
+                                      style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 16,
+                                          fontFamily: 'Gilroy'),
+                                    ))
+                              ],
+                            )
+                          ],
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+            ),
+            shopSearchController.text.isEmpty
+                ? Column(
                     children: [
-                      const Text(
-                        "Exclusive Offer",
-                        style: TextStyle(
-                            fontFamily: 'Gilroy',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 24),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 30),
+                        child: SizedBox(
+                          height: 250,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: exclusive.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      left: index == 0 ? 24 : 15,
+                                      right: index == exclusive.length - 1
+                                          ? 24
+                                          : 0),
+                                  child: FoodCard(
+                                      detail: exclusive[index].detail,
+                                      image: exclusive[index].image,
+                                      title: exclusive[index].title,
+                                      quantity: exclusive[index].quantity,
+                                      price: exclusive[index].price),
+                                );
+                              }),
+                        ),
                       ),
-                      TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "See all",
-                            style: TextStyle(
-                                color: Color.fromRGBO(83, 177, 117, 1),
-                                fontSize: 16,
-                                fontFamily: 'Gilroy'),
-                          ))
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Best Selling",
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 24),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CustomGroceryCategoryPage(
+                                                  appBarTitle: "Best Selling",
+                                                  list: bestSelling)));
+                                },
+                                child: Text(
+                                  "See all",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 16,
+                                      fontFamily: 'Gilroy'),
+                                ))
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 30),
+                        child: SizedBox(
+                          height: 250,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: bestSelling.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      left: index == 0 ? 24 : 15,
+                                      right: index == bestSelling.length - 1
+                                          ? 24
+                                          : 0),
+                                  child: FoodCard(
+                                      detail: bestSelling[index].detail,
+                                      image: bestSelling[index].image,
+                                      title: bestSelling[index].title,
+                                      quantity: bestSelling[index].quantity,
+                                      price: bestSelling[index].price),
+                                );
+                              }),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Groceries",
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 24),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              const Explore())));
+                                },
+                                child: Text(
+                                  "See all",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 16,
+                                      fontFamily: 'Gilroy'),
+                                ))
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 30),
+                        child: SizedBox(
+                          height: 100,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: groceryCategories.length,
+                              itemBuilder: (context, index) {
+                                Map<String, dynamic> item =
+                                    groceryCategories[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      left: index == 0 ? 24 : 15,
+                                      right:
+                                          index == groceryCategories.length - 1
+                                              ? 24
+                                              : 0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  CustomGroceryCategoryPage(
+                                                      appBarTitle:
+                                                          groceryCategories[
+                                                              index]['title'],
+                                                      list: groceryCategories[
+                                                          index]['items']))));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(19),
+                                          color: item['color']),
+                                      width: 248.19,
+                                      height: 105,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            item['image'],
+                                            width: 71.9,
+                                            height: 71.9,
+                                          ),
+                                          SizedBox(
+                                            width: 145,
+                                            child: Text(
+                                              item['title'],
+                                              style: const TextStyle(
+                                                  fontFamily: "Gilroy",
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: SizedBox(
+                          height: 250,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: meat.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      left: index == 0 ? 24 : 15,
+                                      right: index == meat.length - 1 ? 24 : 0),
+                                  child: FoodCard(
+                                      detail: meat[index].detail,
+                                      image: meat[index].image,
+                                      title: meat[index].title,
+                                      quantity: meat[index].quantity,
+                                      price: meat[index].price),
+                                );
+                              }),
+                        ),
+                      )
                     ],
                   )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 250,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: FoodCard(
-                          image: 'assets/Images/banana.png',
-                          title: "Organic bananas",
-                          quantity: "7 pcs",
-                          price: 4.99),
-                    );
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Best Selling",
-                    style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24),
-                  ),
-                  TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "See all",
-                        style: TextStyle(
-                            color: Color.fromRGBO(83, 177, 117, 1),
-                            fontSize: 16,
-                            fontFamily: 'Gilroy'),
-                      ))
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            SizedBox(
-              height: 250,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: FoodCard(
-                          image: 'assets/Images/apple.png',
-                          title: "Red Apples",
-                          quantity: "1kg",
-                          price: 4.99),
-                    );
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Groceries",
-                    style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24),
-                  ),
-                  TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "See all",
-                        style: TextStyle(
-                            color: Color.fromRGBO(83, 177, 117, 1),
-                            fontSize: 16,
-                            fontFamily: 'Gilroy'),
-                      ))
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              height: 100,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: groceryCategories.length,
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> item = groceryCategories[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) =>
-                                      CustomGroceryCategoryPage(
-                                          appBarTitle: groceryCategories[index]
-                                              ['title'],
-                                          list: groceryCategories[index]
-                                              ['items']))));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(19),
-                              color: item['color']),
-                          width: 248.19,
-                          height: 105,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                item['image'],
-                                width: 71.9,
-                                height: 71.9,
-                              ),
-                              SizedBox(
-                                width: 145,
-                                child: Text(
-                                  item['title'],
-                                  style: const TextStyle(
-                                      fontFamily: "Gilroy",
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              )
-                            ],
-                          ),
+                : (searchItems.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No Item Found',
+                          style: TextStyle(
+                              fontFamily: "Gilroy",
+                              fontSize: 30,
+                              color: Colors.grey),
                         ),
-                      ),
-                    );
-                  }),
-            ),
-            SizedBox(
-              height: 250,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: meat.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: FoodCard(
-                          image: meat[index].image,
-                          title: meat[index].title,
-                          quantity: meat[index].quantity,
-                          price: meat[index].price),
-                    );
-                  }),
-            ),
+                      )
+                    : SizedBox(
+                        height: 500,
+                        child: GridView.builder(
+                            itemCount: searchItems.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.75, crossAxisCount: 2),
+                            itemBuilder: (context, index) {
+                              return FoodCard(
+                                  detail: searchItems[index].detail,
+                                  image: searchItems[index].image,
+                                  title: searchItems[index].title,
+                                  quantity: searchItems[index].quantity,
+                                  price: searchItems[index].price);
+                            }),
+                      )),
           ],
         )),
       ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app_ui/custom_grid.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grocery_app_ui/grocery_provider.dart';
 import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/widgets/custom_grid.dart';
 
 class CustomGroceryCategoryPage extends StatefulWidget {
   final String appBarTitle;
@@ -46,10 +47,11 @@ class _CustomGroceryCategoryPageState extends State<CustomGroceryCategoryPage> {
                                   width: double.infinity,
                                   height: 791,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       const Text(
-                                        "Categories",
+                                        "Sort By",
                                         style: TextStyle(
                                             fontFamily: "Gilroy",
                                             fontWeight: FontWeight.bold,
@@ -61,55 +63,22 @@ class _CustomGroceryCategoryPageState extends State<CustomGroceryCategoryPage> {
                                           height: 200,
                                           child: Expanded(
                                             child: ListView.builder(
-                                              physics: const NeverScrollableScrollPhysics(),
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
                                               itemCount: options1.length,
                                               itemBuilder: (context, index) {
                                                 return CheckboxListTile(
-                                                    activeColor: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
-                                                    title: Text(
-                                                        options1[index]['title']),
+                                                    activeColor:
+                                                        Theme.of(context)
+                                                            .primaryColor,
+                                                    title: Text(options1[index]
+                                                        ['title']),
                                                     value: options1[index]
                                                         ['isTicked'],
                                                     onChanged: (newBool) {
                                                       setstate(() {
-                                                        options1[index]['isTicked'] =
-                                                            newBool;
-                                                      });
-                                                    });
-                                              },
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                      const Text(
-                                        "Brands",
-                                        style: TextStyle(
-                                            fontFamily: "Gilroy",
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      ),
-                                      StatefulBuilder(
-                                          builder: (context, setstate) {
-                                        return SizedBox(
-                                          height: 200,
-                                          child: Expanded(
-                                            child: ListView.builder(
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              itemCount: options2.length,
-                                              itemBuilder: (context, index) {
-                                                return CheckboxListTile(
-                                                    activeColor: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
-                                                    title: Text(
-                                                        options2[index]['title']),
-                                                    value: options2[index]
-                                                        ['isTicked'],
-                                                    onChanged: (newBool) {
-                                                      setstate(() {
-                                                        options2[index]['isTicked'] =
+                                                        options1[index]
+                                                                ['isTicked'] =
                                                             newBool;
                                                       });
                                                     });
@@ -124,29 +93,46 @@ class _CustomGroceryCategoryPageState extends State<CustomGroceryCategoryPage> {
                               ),
                               Align(
                                 alignment: const Alignment(0, 0.75),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Container(
-                                      width: 364,
-                                      height: 67,
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: const Center(
-                                        child: Text(
-                                          "Apply Filters",
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: SizedBox(
+                                    height: 67,
+                                    width: 364,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Theme.of(context)
+                                                        .primaryColor)),
+                                        onPressed: () {
+                                          if (options1[0]['isTicked'] == true) {
+                                            setState(() {
+                                              widget.list.sort((a, b) =>
+                                                  a.price.compareTo(b.price));
+                                            });
+                                          } else if (options1[1]['isTicked'] ==
+                                              true) {
+                                            setState(() {
+                                              widget.list.sort((a, b) =>
+                                                  b.price.compareTo(a.price));
+                                            });
+                                          } else if (options1[2]['isTicked'] ==
+                                              true) {
+                                            setState(() {
+                                              widget.list.sort((a, b) =>
+                                                  a.title.compareTo(b.title));
+                                            });
+                                          }
+                                          Fluttertoast.showToast(msg: "Filter applied");
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text(
+                                          "Apply Filter",
                                           style: TextStyle(
-                                              fontFamily: "Gilroy",
-                                              fontSize: 18,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
+                                              color: Colors.white,
+                                              fontSize: 18),
+                                        )),
                                   ),
                                 ),
                               )
