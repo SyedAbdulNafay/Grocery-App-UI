@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grocery_app_ui/grocery_provider.dart';
 import 'package:grocery_app_ui/item.dart';
@@ -7,8 +8,12 @@ import 'package:grocery_app_ui/widgets/custom_grid.dart';
 class CustomGroceryCategoryPage extends StatefulWidget {
   final String appBarTitle;
   final List<Item> list;
-  const CustomGroceryCategoryPage(
-      {super.key, required this.appBarTitle, required this.list});
+  int? selectedOption;
+  CustomGroceryCategoryPage(
+      {super.key,
+      required this.appBarTitle,
+      required this.list,
+      required this.selectedOption});
 
   @override
   State<CustomGroceryCategoryPage> createState() =>
@@ -16,6 +21,13 @@ class CustomGroceryCategoryPage extends StatefulWidget {
 }
 
 class _CustomGroceryCategoryPageState extends State<CustomGroceryCategoryPage> {
+
+  @override
+  void dispose(){
+    FocusScope.of(context).unfocus();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,31 +71,27 @@ class _CustomGroceryCategoryPageState extends State<CustomGroceryCategoryPage> {
                                       ),
                                       StatefulBuilder(
                                           builder: (context, setstate) {
-                                        return SizedBox(
-                                          height: 200,
-                                          child: Expanded(
-                                            child: ListView.builder(
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemCount: options1.length,
-                                              itemBuilder: (context, index) {
-                                                return CheckboxListTile(
-                                                    activeColor:
-                                                        Theme.of(context)
-                                                            .primaryColor,
-                                                    title: Text(options1[index]
-                                                        ['title']),
-                                                    value: options1[index]
-                                                        ['isTicked'],
-                                                    onChanged: (newBool) {
-                                                      setstate(() {
-                                                        options1[index]
-                                                                ['isTicked'] =
-                                                            newBool;
-                                                      });
+                                        return Expanded(
+                                          child: ListView.builder(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: options1.length,
+                                            itemBuilder: (context, index) {
+                                              return RadioListTile(
+                                                  groupValue:
+                                                      widget.selectedOption,
+                                                  activeColor: Theme.of(context)
+                                                      .primaryColor,
+                                                  title: Text(
+                                                      options1[index]['title']),
+                                                  value: index,
+                                                  onChanged: (value) {
+                                                    setstate(() {
+                                                      widget.selectedOption =
+                                                          value;
                                                     });
-                                              },
-                                            ),
+                                                  });
+                                            },
                                           ),
                                         );
                                       })
@@ -106,25 +114,26 @@ class _CustomGroceryCategoryPageState extends State<CustomGroceryCategoryPage> {
                                                     Theme.of(context)
                                                         .primaryColor)),
                                         onPressed: () {
-                                          if (options1[0]['isTicked'] == true) {
+                                          if (widget.selectedOption == 0) {
                                             setState(() {
                                               widget.list.sort((a, b) =>
                                                   a.price.compareTo(b.price));
                                             });
-                                          } else if (options1[1]['isTicked'] ==
-                                              true) {
+                                          } else if (widget.selectedOption ==
+                                              1) {
                                             setState(() {
                                               widget.list.sort((a, b) =>
                                                   b.price.compareTo(a.price));
                                             });
-                                          } else if (options1[2]['isTicked'] ==
-                                              true) {
+                                          } else if (widget.selectedOption ==
+                                              2) {
                                             setState(() {
                                               widget.list.sort((a, b) =>
                                                   a.title.compareTo(b.title));
                                             });
                                           }
-                                          Fluttertoast.showToast(msg: "Filter applied");
+                                          Fluttertoast.showToast(
+                                              msg: "Filter applied");
                                           Navigator.pop(context);
                                         },
                                         child: const Text(

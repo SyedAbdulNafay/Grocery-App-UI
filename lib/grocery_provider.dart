@@ -9,93 +9,107 @@ List<Map<String, dynamic>> groceryCategories = [
     "image": "assets/Images/pulses.png",
     "color": const Color.fromRGBO(248, 164, 76, 0.25),
     "borderColor": const Color.fromRGBO(248, 164, 76, 1),
-    "items": pulses
+    "items": pulses,
+    "selectedOption": null
   },
   {
     "title": "Rice",
     "image": "assets/Images/sack-of-rice.png",
     "color": const Color.fromRGBO(83, 177, 117, 0.25),
     "borderColor": const Color.fromRGBO(83, 177, 117, 1),
-    "items": rice
+    "items": rice,
+    "selectedOption": null
   },
   {
     "title": "Fresh Fruits & Vegetable",
     "image": "assets/Images/fruit_basket.png",
     "color": const Color.fromRGBO(83, 177, 117, 0.1),
     "borderColor": const Color.fromRGBO(83, 177, 117, 0.7),
-    "items": fruitsAndVeg
+    "items": fruitsAndVeg,
+    "selectedOption": null
   },
   {
     "title": "Cooking Oil & Ghee",
     "image": "assets/Images/oils.png",
     "color": const Color.fromRGBO(248, 164, 176, 0.1),
     "borderColor": const Color.fromRGBO(248, 164, 176, 0.7),
-    "items": oils
+    "items": oils,
+    "selectedOption": null
   },
   {
     "title": "Meat & Fish",
     "image": "assets/Images/meat.png",
     "color": const Color.fromRGBO(247, 165, 147, 0.25),
     "borderColor": const Color.fromRGBO(247, 165, 147, 1),
-    "items": meat
+    "items": meat,
+    "selectedOption": null
   },
   {
     "title": "Bakery & Snacks",
     "image": "assets/Images/bakery.png",
     "color": const Color.fromRGBO(211, 176, 224, 0.25),
     "borderColor": const Color.fromRGBO(211, 176, 224, 1),
-    "items": bakery
+    "items": bakery,
+    "selectedOption": null
   },
   {
     "title": "Dairy & Eggs",
     "image": "assets/Images/dairy.png",
     "color": const Color.fromRGBO(253, 229, 152, 0.25),
     "borderColor": const Color.fromRGBO(253, 229, 152, 1),
-    "items": dairy
+    "items": dairy,
+    "selectedOption": null
   },
   {
     "title": "Beverages",
     "image": "assets/Images/beverages.png",
     "color": const Color.fromRGBO(183, 223, 245, 0.25),
     "borderColor": const Color.fromRGBO(183, 223, 245, 1),
-    "items": beverages
+    "items": beverages,
+    "selectedOption": null
   },
 ];
 
 List<Item> beverages = [
   Item(
-    detail: "Refreshing and sugar-free, Diet Coke is a popular carbonated beverage enjoyed by many. With its crisp taste and zero calories, it's a guilt-free choice for those watching their sugar intake.",
+    detail:
+        "Refreshing and sugar-free, Diet Coke is a popular carbonated beverage enjoyed by many. With its crisp taste and zero calories, it's a guilt-free choice for those watching their sugar intake.",
     image: "assets/Images/dietcoke_can.png",
     title: "Diet Coke",
     quantity: "355ml",
     price: 1.99,
   ),
   Item(
-      detail: "Sprite is a lemon-lime flavored soda known for its crisp and refreshing taste. It's caffeine-free and offers a burst of citrus flavor that's perfect for quenching your thirst on a hot day.",
+      detail:
+          "Sprite is a lemon-lime flavored soda known for its crisp and refreshing taste. It's caffeine-free and offers a burst of citrus flavor that's perfect for quenching your thirst on a hot day.",
       image: "assets/Images/sprite_can.png",
       title: "Sprite Can",
       quantity: "325ml",
       price: 1.50),
   Item(
-      detail: "This blend of apple and grape juices offers a sweet and fruity taste packed with vitamins and antioxidants. Enjoy it chilled as a refreshing beverage for breakfast or throughout the day.",
+      detail:
+          "This blend of apple and grape juices offers a sweet and fruity taste packed with vitamins and antioxidants. Enjoy it chilled as a refreshing beverage for breakfast or throughout the day.",
       image: "assets/Images/apple_juice.png",
       title: "Apple & Grape Juice",
       quantity: "2L",
       price: 15.99),
   Item(
-      detail: "Freshly squeezed orange juice is a classic breakfast staple known for its tangy and citrusy flavor. Packed with vitamin C and other essential nutrients, it's a healthy choice to start your day.",
+      detail:
+          "Freshly squeezed orange juice is a classic breakfast staple known for its tangy and citrusy flavor. Packed with vitamin C and other essential nutrients, it's a healthy choice to start your day.",
       image: "assets/Images/orange_juice.png",
       title: "Orange Juice",
       quantity: "2L",
       price: 15.99),
   Item(
-      detail: "Coca-Cola, the iconic cola beverage, is beloved worldwide for its unique taste and effervescence. Enjoy it chilled over ice or mixed with your favorite spirits for a classic beverage experience.",
+      detail:
+          "Coca-Cola, the iconic cola beverage, is beloved worldwide for its unique taste and effervescence. Enjoy it chilled over ice or mixed with your favorite spirits for a classic beverage experience.",
       image: "assets/Images/coke_can.png",
       title: "Coca Cola Can",
       quantity: "325ml",
       price: 4.99),
   Item(
-      detail: "Pepsi is a refreshing cola beverage with a bold and bubbly flavor loved by many. Whether enjoyed on its own or paired with your favorite snacks, it's a satisfying drink for any occasion.",
+      detail:
+          "Pepsi is a refreshing cola beverage with a bold and bubbly flavor loved by many. Whether enjoyed on its own or paired with your favorite snacks, it's a satisfying drink for any occasion.",
       image: "assets/Images/pepsi_can.png",
       title: "Pepsi Can",
       quantity: "330ml",
@@ -481,17 +495,9 @@ List<Item> dairy = [
 ];
 
 List<Map<String, dynamic>> options1 = [
-  {"title": "Cheapest", "isTicked": false},
-  {"title": "Most Expensive", "isTicked": false},
-  {"title": "Alphabetically", "isTicked": false},
-  {"title": "Rating", "isTicked": false}
-];
-
-List<Map<String, dynamic>> options2 = [
-  {"title": "Individual Callection", "isTicked": false},
-  {"title": "Cocola", "isTicked": false},
-  {"title": "Ifad", "isTicked": false},
-  {"title": "Kazi Farmas", "isTicked": false}
+  {"title": "Cheapest", "selectedOption": null},
+  {"title": "Most Expensive", "selectedOption": null},
+  {"title": "Alphabetically", "selectedOption": null},
 ];
 
 List<Item> exclusive = [
@@ -503,6 +509,11 @@ List<Item> exclusive = [
   groceryCategories[5]['items'][2],
   groceryCategories[6]['items'][2],
   groceryCategories[7]['items'][2],
+];
+
+List<Map<String, dynamic>> shopCategory = [
+  {'list': exclusive, 'selectedOption': null},
+  {'list': bestSelling, 'selectedOption': null}
 ];
 
 List<Item> bestSelling = [

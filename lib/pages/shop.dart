@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app_ui/focus.dart';
 import 'package:grocery_app_ui/grocery_provider.dart';
 import 'package:grocery_app_ui/item.dart';
 import 'package:grocery_app_ui/pages/explore.dart';
 import 'package:grocery_app_ui/pages/grocery_categories_page.dart';
+import 'package:grocery_app_ui/widgets/custom_grid.dart';
 import 'package:grocery_app_ui/widgets/foodcard.dart';
 
 class Shop extends StatefulWidget {
@@ -13,8 +15,20 @@ class Shop extends StatefulWidget {
 }
 
 class _ShopState extends State<Shop> {
+  final focusNode = FocusNode();
   final shopSearchController = TextEditingController();
   List<Item> searchItems = [];
+  bool _shouldFocus = true;
+
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    if(_shouldFocus){
+      _shouldFocus = false;
+      FocusScope.of(context).requestFocus(focusNode);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     void searchItem(String query) {
@@ -29,9 +43,13 @@ class _ShopState extends State<Shop> {
     }
 
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+          body: SingleChildScrollView(
         child: Center(
             child: Column(
           children: [
@@ -46,41 +64,46 @@ class _ShopState extends State<Shop> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
-                  TextField(
-                    controller: shopSearchController,
-                    onChanged: (query) {
-                      searchItem(query);
-                      setState(() {});
-                    },
-                    decoration: InputDecoration(
-                        suffix: shopSearchController.text.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(
-                                  Icons.cancel_sharp,
-                                  size: 18,
-                                  color: Colors.grey,
-                                ),
-                                onPressed: () {
-                                  shopSearchController.clear();
-                                  searchItems.clear();
-                                  setState(() {});
-                                },
-                              )
-                            : null,
-                        filled: true,
-                        fillColor: Colors.grey[100],
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(16)),
-                        hintText: "Search Store",
-                        hintStyle: TextStyle(
-                            color: Colors.grey[700], fontFamily: 'Gilroy'),
-                        prefixIcon: const Icon(Icons.search)),
+                  AutomaticFocus(
+                    child: TextField(
+                      focusNode: focusNode,
+                      controller: shopSearchController,
+                      onChanged: (query) {
+                        searchItem(query);
+                        setState(() {});
+                      },
+                      decoration: InputDecoration(
+                          suffix: shopSearchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(
+                                    Icons.cancel_sharp,
+                                    size: 18,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    shopSearchController.clear();
+                                    searchItems.clear();
+                                    setState(() {});
+                                  },
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(16)),
+                          hintText: "Search Store",
+                          hintStyle: TextStyle(
+                              color: Colors.grey[700], fontFamily: 'Gilroy'),
+                          prefixIcon: const Icon(Icons.search)),
+                    ),
                   ),
                   shopSearchController.text.isEmpty
                       ? Column(
                           children: [
-                            const SizedBox(height: 20,),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             Container(
                               height: 114.99,
                               width: 368.2,
@@ -119,6 +142,9 @@ class _ShopState extends State<Shop> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   CustomGroceryCategoryPage(
+                                                      selectedOption:
+                                                          shopCategory[0][
+                                                              'selectedOption'],
                                                       appBarTitle: "Exclusive",
                                                       list: exclusive)));
                                     },
@@ -183,6 +209,9 @@ class _ShopState extends State<Shop> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               CustomGroceryCategoryPage(
+                                                  selectedOption:
+                                                      shopCategory[1]
+                                                          ['selectedOption'],
                                                   appBarTitle: "Best Selling",
                                                   list: bestSelling)));
                                 },
@@ -274,6 +303,7 @@ class _ShopState extends State<Shop> {
                                           MaterialPageRoute(
                                               builder: ((context) =>
                                                   CustomGroceryCategoryPage(
+                                                      selectedOption: null,
                                                       appBarTitle:
                                                           groceryCategories[
                                                               index]['title'],
@@ -352,23 +382,11 @@ class _ShopState extends State<Shop> {
                       )
                     : SizedBox(
                         height: 500,
-                        child: GridView.builder(
-                            itemCount: searchItems.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 0.75, crossAxisCount: 2),
-                            itemBuilder: (context, index) {
-                              return FoodCard(
-                                  detail: searchItems[index].detail,
-                                  image: searchItems[index].image,
-                                  title: searchItems[index].title,
-                                  quantity: searchItems[index].quantity,
-                                  price: searchItems[index].price);
-                            }),
+                        child: CustomGrid(list: searchItems, crossAxisCount: 2),
                       )),
           ],
         )),
-      ),
-    ));
+      )),
+    );
   }
 }
