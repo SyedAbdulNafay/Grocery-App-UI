@@ -23,11 +23,8 @@ class _CustomGridState extends State<CustomGrid> {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7.52),
             child: FoodCard(
-                detail: widget.list[index].detail,
-                image: widget.list[index].image,
-                title: widget.list[index].title,
-                quantity: widget.list[index].quantity,
-                price: widget.list[index].price),
+              item: widget.list[index],
+            ),
           );
         });
   }

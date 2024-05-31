@@ -73,7 +73,7 @@ class _ShopState extends State<Shop> {
                         setState(() {});
                       },
                       decoration: InputDecoration(
-                          suffix: shopSearchController.text.isNotEmpty
+                          suffixIcon: shopSearchController.text.isNotEmpty
                               ? IconButton(
                                   icon: const Icon(
                                     Icons.cancel_sharp,
@@ -181,11 +181,7 @@ class _ShopState extends State<Shop> {
                                           ? 24
                                           : 0),
                                   child: FoodCard(
-                                      detail: exclusive[index].detail,
-                                      image: exclusive[index].image,
-                                      title: exclusive[index].title,
-                                      quantity: exclusive[index].quantity,
-                                      price: exclusive[index].price),
+                                      item: exclusive[index],),
                                 );
                               }),
                         ),
@@ -240,11 +236,7 @@ class _ShopState extends State<Shop> {
                                           ? 24
                                           : 0),
                                   child: FoodCard(
-                                      detail: bestSelling[index].detail,
-                                      image: bestSelling[index].image,
-                                      title: bestSelling[index].title,
-                                      quantity: bestSelling[index].quantity,
-                                      price: bestSelling[index].price),
+                                      item: bestSelling[index],),
                                 );
                               }),
                         ),
@@ -359,11 +351,7 @@ class _ShopState extends State<Shop> {
                                       left: index == 0 ? 24 : 15,
                                       right: index == meat.length - 1 ? 24 : 0),
                                   child: FoodCard(
-                                      detail: meat[index].detail,
-                                      image: meat[index].image,
-                                      title: meat[index].title,
-                                      quantity: meat[index].quantity,
-                                      price: meat[index].price),
+                                      item: meat[index],),
                                 );
                               }),
                         ),

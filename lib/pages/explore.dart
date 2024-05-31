@@ -4,7 +4,6 @@ import 'package:grocery_app_ui/grocery_provider.dart';
 import 'package:grocery_app_ui/item.dart';
 import 'package:grocery_app_ui/pages/grocery_categories_page.dart';
 import 'package:grocery_app_ui/widgets/custom_grid.dart';
-import 'package:grocery_app_ui/widgets/foodcard.dart';
 
 class Explore extends StatefulWidget {
   const Explore({
@@ -70,7 +69,7 @@ class _ExploreState extends State<Explore> {
                             hintStyle: TextStyle(
                                 color: Colors.grey[700], fontFamily: 'Gilroy'),
                             prefixIcon: const Icon(Icons.search),
-                            suffix: exploreSearchController.text.isNotEmpty
+                            suffixIcon: exploreSearchController.text.isNotEmpty
                                 ? IconButton(
                                     icon: const Icon(
                                       Icons.cancel_sharp,

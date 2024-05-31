@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app_ui/pages/edit_profile.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -28,7 +29,9 @@ class _AccountState extends State<Account> {
       body: Column(
         children: [
           ListTile(
-            leading: const CircleAvatar(radius: 27,backgroundImage: AssetImage('assets/Images/profile_pic.png')),
+            leading: const CircleAvatar(
+                radius: 27,
+                backgroundImage: AssetImage('assets/Images/profile_pic.png')),
             title: Row(
               children: [
                 const Text(
@@ -40,7 +43,9 @@ class _AccountState extends State<Account> {
                 ),
                 IconButton(
                     icon: const Icon(Icons.edit_outlined),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: ((context) => EditProfile(image: 'assets/Images/profile_pic.png',))));
+                    },
                     color: Theme.of(context).primaryColor)
               ],
             ),
@@ -72,7 +77,7 @@ class _AccountState extends State<Account> {
           Align(
               alignment: const Alignment(0, 0.9),
               child: GestureDetector(
-                onTap: (){},
+                onTap: () {},
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   width: 300,
@@ -87,7 +92,9 @@ class _AccountState extends State<Account> {
                           Icons.logout_outlined,
                           color: Theme.of(context).primaryColor,
                         ),
-                        const SizedBox(width: 70,),
+                        const SizedBox(
+                          width: 70,
+                        ),
                         Text(
                           "Log Out",
                           style: TextStyle(

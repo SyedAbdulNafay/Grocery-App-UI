@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/models/local_storage.dart';
 
 class CartProvider extends ChangeNotifier {
-  List<Item> cart = [];
+  List<Item> cart = LocalStorage.getList('cart');
 
-  void addToCart(Item item) {
+  void addToCart(Item item) async {
     cart.add(item);
+    await LocalStorage.setList('cart', cart);
     notifyListeners();
   }
 
-  void removeFromCart(Item item) {
+  void removeFromCart(Item item) async {
     cart.removeWhere((element) => element.title == item.title);
+    await LocalStorage.setList('cart', cart);
     notifyListeners();
   }
 

@@ -156,11 +156,8 @@ class _CartState extends State<Cart> {
                                     IconButton(
                                         onPressed: () {
                                           setState(() {
-                                            itemProvider.item.count = 0;
-                                            cartProvider.cart.removeWhere(
-                                                (element) =>
-                                                    element.title ==
-                                                    item.title);
+                                            cartProvider.cart[index].count = 0;
+                                            cartProvider.removeFromCart(item);
                                           });
                                         },
                                         icon: const Icon(
