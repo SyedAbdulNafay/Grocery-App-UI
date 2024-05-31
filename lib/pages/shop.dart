@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app_ui/focus.dart';
-import 'package:grocery_app_ui/grocery_provider.dart';
-import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/models/grocery_provider.dart';
 import 'package:grocery_app_ui/pages/explore.dart';
 import 'package:grocery_app_ui/pages/grocery_categories_page.dart';
+import 'package:grocery_app_ui/services/item.dart';
 import 'package:grocery_app_ui/widgets/custom_grid.dart';
+import 'package:grocery_app_ui/widgets/focus.dart';
 import 'package:grocery_app_ui/widgets/foodcard.dart';
 
 class Shop extends StatefulWidget {

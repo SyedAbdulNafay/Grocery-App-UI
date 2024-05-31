@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/services/item.dart';
 
 class ItemProvider extends ChangeNotifier{
   Item _item;

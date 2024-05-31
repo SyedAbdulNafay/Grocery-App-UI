@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'package:grocery_app_ui/item.dart';
+
+import 'package:grocery_app_ui/services/item.dart';
 
 int selectedIndex = 0;
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app_ui/homepage.dart';
+import 'package:grocery_app_ui/pages/homepage.dart';
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});

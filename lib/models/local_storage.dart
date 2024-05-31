@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/services/item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
@@ -51,14 +51,10 @@ class LocalStorage {
 
   static List<Item> getList(String key) {
     final json = prefs.getString(key);
-    print("step 1");
     if (json == null) {
-      print("step 2");
       return [];
     }
-    print("step 3");
     List<Map<String, dynamic>> itemList = jsonDecode(json).cast<Map<String, dynamic>>();
-    print("step 4");
     return itemList.map((map) => Item.fromMap(map)).toList();
   }
 

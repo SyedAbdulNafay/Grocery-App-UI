@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:grocery_app_ui/grocery_provider.dart';
-import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/models/grocery_provider.dart';
+import 'package:grocery_app_ui/services/item.dart';
 import 'package:grocery_app_ui/widgets/custom_grid.dart';
 
 class CustomGroceryCategoryPage extends StatefulWidget {

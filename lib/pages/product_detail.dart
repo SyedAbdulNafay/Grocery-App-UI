@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:grocery_app_ui/cart_provider.dart';
-import 'package:grocery_app_ui/favourite_provider.dart';
-import 'package:grocery_app_ui/item.dart';
-import 'package:grocery_app_ui/item_provider.dart';
-import 'package:grocery_app_ui/models/local_storage.dart';
+import 'package:grocery_app_ui/models/cart_provider.dart';
+import 'package:grocery_app_ui/models/favourite_provider.dart';
+import 'package:grocery_app_ui/models/item_provider.dart';
+import 'package:grocery_app_ui/services/item.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetail extends StatefulWidget {

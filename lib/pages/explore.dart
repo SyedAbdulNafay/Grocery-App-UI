@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:grocery_app_ui/grocery_provider.dart';
-import 'package:grocery_app_ui/item.dart';
+import 'package:grocery_app_ui/models/grocery_provider.dart';
 import 'package:grocery_app_ui/pages/grocery_categories_page.dart';
+import 'package:grocery_app_ui/services/item.dart';
 import 'package:grocery_app_ui/widgets/custom_grid.dart';
 
 class Explore extends StatefulWidget {
@@ -156,7 +156,7 @@ class _ExploreState extends State<Explore> {
                                               child: ElevatedButton(
                                                   style: ButtonStyle(
                                                       backgroundColor:
-                                                          MaterialStatePropertyAll(
+                                                          WidgetStatePropertyAll(
                                                               Theme.of(context)
                                                                   .primaryColor)),
                                                   onPressed: () {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app_ui/item.dart';
+
 import 'package:grocery_app_ui/models/local_storage.dart';
+import 'package:grocery_app_ui/services/item.dart';
 
 class CartProvider extends ChangeNotifier {
   List<Item> cart = LocalStorage.getList('cart');

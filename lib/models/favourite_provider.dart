@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app_ui/item.dart';
 import 'package:grocery_app_ui/models/local_storage.dart';
+import 'package:grocery_app_ui/services/item.dart';
 
 class FavouriteProvider extends ChangeNotifier {
   List<Item> favourite = LocalStorage.getList('favourite');
